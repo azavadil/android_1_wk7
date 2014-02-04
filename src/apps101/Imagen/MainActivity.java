@@ -24,12 +24,17 @@ package apps101.Imagen;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnClickListener {
@@ -42,10 +47,62 @@ public class MainActivity extends Activity implements OnClickListener {
 	private SharedPreferences mPrefs;  //note this is an instance variable
 	private TextView mTextView;
 
+	private Bitmap mBitmap;
+
+	private Canvas mCanvas;
+
+	private ImageView mImageView;
+
+	private Paint mPaint;
+
+	private Bitmap mRain;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate!");
+		
+		
+		 // width, height, color scheme
+		 // RGB_565
+		mBitmap = Bitmap.createBitmap(480, 600, Bitmap.Config.ARGB_8888); 
+		// to make changes to bitmap we need a canvas
+		// Canvas constructor takes a pointer to a bitmap
+		// canvas is way in to modify bitmap. we're making changes to the underlying bitmap
+		
+		
+		// we use an android helper class. 
+		// we pass a pointer to our resource and the resource id and this
+		// will decode it
+		
+		mRain = BitmapFactory.decodeResource(getResources(), R.drawable.rain_penguin_180);
+		
+		
+		
+		mCanvas = new Canvas(mBitmap);
+		mCanvas.drawColor(0xffff6600); 
+		
+		// we can use a canvas to draw a bitmap
+		// there are may ways to draw
+		mCanvas.drawBitmap(mRain, 100,100, null); 
+		
+		
+		// Paint has color | thickness | outlines only/fill | 
+		// 
+		mPaint = new Paint(); 
+		mPaint.setColor(0xff000099); 
+		mPaint.setStrokeWidth(16); 
+		mCanvas.drawLine(0, 0, 480, 600, mPaint); 
+		
+		mImageView = new ImageView(this); 
+		
+		// here we set the ImageView's image with .setImageBitmap
+		// another common way is to use .setImageDrawable
+		// drawable can be lines, arcs, paths (smaller memory footprint)
+		mImageView.setImageBitmap(mBitmap); 
+		
+		setContentView(mImageView); 
+		
 		
 		// references a file installed in the flash memory 
 		// default is that 
