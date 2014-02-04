@@ -99,6 +99,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View arg0) {
 		
 		
+		// anonmymous inner class
+		// not the code can reference mPrefs
+		// you can think of the runnable as having a hook back into 
+		// activity objects, i.e. it picks up the instance variables
+		
+		
 		Runnable add20 = new Runnable(){ 
 			
 			@Override
